@@ -18,6 +18,14 @@ var User = new Schema({
 		type: String,
 		default: ''
 	},
+	email: {
+		type: String,
+		default: ''
+	},
+	phone: {
+		type: String,
+		default: ''
+	},
 	purchase: [purchaseSchema]
 });
 
