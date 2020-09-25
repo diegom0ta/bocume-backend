@@ -1,80 +1,80 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const Marmitaria = require('../models/marmitaria');
+const Menu = require('../models/menu');
 const cors = require('./cors');
 
-const marmitariaRouter = express.Router();
+const menuRouter = express.Router();
 
-marmitariaRouter.use(bodyParser.json());
+menuRouter.use(bodyParser.json());
 
-marmitariaRouter
+menuRouter
 	.route('/')
 	.options(cors.corsWithOptions, (req, res) => {
 		res.sendStatus(200);
 	})
 	.get(cors.cors, (req, res, next) => {
-		Marmitaria.find({})
-			.then((marmitarias) => {
+		Menu.find({})
+			.then((menus) => {
 				res.statusCode = 200;
 				res.setHeader('Content-Type', 'application/json');
-				res.json(marmitarias);
+				res.json(menus);
 			})
 			.catch((err) => next(err));
 	})
 	.post(cors.corsWithOptions, (req, res, next) => {
-		Marmitaria.create(req.body)
-			.then((marmitaria) => {
-				console.log('New Marmitaria added ', marmitaria);
+		Menu.create(req.body)
+			.then((menu) => {
+				console.log('New Menu added ', menu);
 				res.statusCode = 200;
 				res.setHeader('Content-Type', 'application/json');
-				res.json(marmitaria);
+				res.json(menu);
 			})
 			.catch((err) => next(err));
 	})
 	.put(cors.corsWithOptions, (req, res, next) => {
 		res.statusCode = 403;
-		res.end('Cannot PUT on /marmitaria');
+		res.end('Cannot PUT on /menu');
 	})
 	.delete(cors.corsWithOptions, (req, res, next) => {
 		res.statusCode = 403;
-		res.end('Cannot DELETE on /marmitaria');
+		res.end('Cannot DELETE on /menu');
 	});
 
-marmitariaRouter
+menuRouter
 	.route('/:id')
 	.options(cors.corsWithOptions, (req, res) => {
 		res.sendStatus(200);
 	})
 	.get(cors.cors, (req, res, next) => {
-		Marmitaria.findById(req.params.id)
-			.then((marmitaria) => {
+		Menu.findById(req.params.id)
+			.then((menu) => {
 				res.statusCode = 200;
 				res.setHeader('Content-Type', 'application/json');
-				res.json(marmitaria);
+				res.json(menu);
 			})
 			.catch((err) => next(err));
 	})
 	.post(cors.corsWithOptions, (req, res, next) => {
 		res.statusCode = 403;
-		res.end('Cannot POST on /marmitaria/:id');
+		res.end('Cannot POST on /menu/:id');
 	})
 	.put(cors.corsWithOptions, (req, res, next) => {
-		Marmitaria.findByIdAndUpdate(
+		Menu.findByIdAndUpdate(
 			req.params.id,
 			{
 				$set: req.body
 			},
 			{ new: true }
 		)
-			.then((marmitaria) => {
+			.then((menu) => {
 				res.statusCode = 200;
 				res.setHeader('Content-Type', 'application/json');
-				res.json(marmitaria);
+				res.json(menu);
 			})
 			.catch((err) => next(err));
 	})
 	.delete(cors.corsWithOptions, (req, res, next) => {
-		Marmitaria.findByIdAndRemove(req.params.id)
+		Menu.findByIdAndRemove(req.params.id)
 			.then((resp) => {
 				res.statusCode = 200;
 				res.setHeader('Content-Type', 'application/json');
@@ -83,4 +83,4 @@ marmitariaRouter
 			.catch((err) => next(err));
 	});
 
-module.exports = marmitariaRouter;
+module.exports = menuRouter;

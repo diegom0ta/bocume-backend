@@ -1,80 +1,64 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const Marmitaria = require('../models/marmitaria');
+const Favorite = require('../models/favorites');
 const cors = require('./cors');
 
-const marmitariaRouter = express.Router();
+const favoriteRouter = express.Router();
 
-marmitariaRouter.use(bodyParser.json());
+favoriteRouter.use(bodyParser.json());
 
-marmitariaRouter
+favoriteRouter
 	.route('/')
 	.options(cors.corsWithOptions, (req, res) => {
 		res.sendStatus(200);
 	})
 	.get(cors.cors, (req, res, next) => {
-		Marmitaria.find({})
-			.then((marmitarias) => {
-				res.statusCode = 200;
-				res.setHeader('Content-Type', 'application/json');
-				res.json(marmitarias);
-			})
-			.catch((err) => next(err));
+		res.statusCode = 403;
+		res.end('Cannot GET on /favorites');
 	})
 	.post(cors.corsWithOptions, (req, res, next) => {
-		Marmitaria.create(req.body)
-			.then((marmitaria) => {
-				console.log('New Marmitaria added ', marmitaria);
+		Favorite.create(req.body)
+			.then((favorite) => {
+				console.log('New Menu added ', menu);
 				res.statusCode = 200;
 				res.setHeader('Content-Type', 'application/json');
-				res.json(marmitaria);
+				res.json(favorite);
 			})
 			.catch((err) => next(err));
 	})
 	.put(cors.corsWithOptions, (req, res, next) => {
 		res.statusCode = 403;
-		res.end('Cannot PUT on /marmitaria');
+		res.end('Cannot PUT on /favorites');
 	})
 	.delete(cors.corsWithOptions, (req, res, next) => {
 		res.statusCode = 403;
-		res.end('Cannot DELETE on /marmitaria');
+		res.end('Cannot DELETE on /favorites');
 	});
 
-marmitariaRouter
+favoriteRouter
 	.route('/:id')
 	.options(cors.corsWithOptions, (req, res) => {
 		res.sendStatus(200);
 	})
 	.get(cors.cors, (req, res, next) => {
-		Marmitaria.findById(req.params.id)
-			.then((marmitaria) => {
+		Favorite.findById(req.params.id)
+			.then((favorite) => {
 				res.statusCode = 200;
 				res.setHeader('Content-Type', 'application/json');
-				res.json(marmitaria);
+				res.json(favorite);
 			})
 			.catch((err) => next(err));
 	})
 	.post(cors.corsWithOptions, (req, res, next) => {
 		res.statusCode = 403;
-		res.end('Cannot POST on /marmitaria/:id');
+		res.end('Cannot POST on /favorites/:id');
 	})
 	.put(cors.corsWithOptions, (req, res, next) => {
-		Marmitaria.findByIdAndUpdate(
-			req.params.id,
-			{
-				$set: req.body
-			},
-			{ new: true }
-		)
-			.then((marmitaria) => {
-				res.statusCode = 200;
-				res.setHeader('Content-Type', 'application/json');
-				res.json(marmitaria);
-			})
-			.catch((err) => next(err));
+		res.statusCode = 403;
+		res.end('Cannot PUT on /favorites/:id');
 	})
 	.delete(cors.corsWithOptions, (req, res, next) => {
-		Marmitaria.findByIdAndRemove(req.params.id)
+		Favorite.findByIdAndRemove(req.params.id)
 			.then((resp) => {
 				res.statusCode = 200;
 				res.setHeader('Content-Type', 'application/json');
@@ -83,4 +67,4 @@ marmitariaRouter
 			.catch((err) => next(err));
 	});
 
-module.exports = marmitariaRouter;
+module.exports = favoriteRouter;

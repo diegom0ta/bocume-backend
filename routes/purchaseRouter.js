@@ -1,80 +1,80 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const Marmitaria = require('../models/marmitaria');
+const Purchase = require('../models/purchase');
 const cors = require('./cors');
 
-const marmitariaRouter = express.Router();
+const purchaseRouter = express.Router();
 
-marmitariaRouter.use(bodyParser.json());
+purchaseRouter.use(bodyParser.json());
 
-marmitariaRouter
+purchaseRouter
 	.route('/')
 	.options(cors.corsWithOptions, (req, res) => {
 		res.sendStatus(200);
 	})
 	.get(cors.cors, (req, res, next) => {
-		Marmitaria.find({})
-			.then((marmitarias) => {
+		Purchase.find({})
+			.then((purchases) => {
 				res.statusCode = 200;
 				res.setHeader('Content-Type', 'application/json');
-				res.json(marmitarias);
+				res.json(purchases);
 			})
 			.catch((err) => next(err));
 	})
 	.post(cors.corsWithOptions, (req, res, next) => {
-		Marmitaria.create(req.body)
-			.then((marmitaria) => {
-				console.log('New Marmitaria added ', marmitaria);
+		Purchase.create(req.body)
+			.then((purchase) => {
+				console.log('New Purchase added ', purchase);
 				res.statusCode = 200;
 				res.setHeader('Content-Type', 'application/json');
-				res.json(marmitaria);
+				res.json(purchase);
 			})
 			.catch((err) => next(err));
 	})
 	.put(cors.corsWithOptions, (req, res, next) => {
 		res.statusCode = 403;
-		res.end('Cannot PUT on /marmitaria');
+		res.end('Cannot PUT on /purchase');
 	})
 	.delete(cors.corsWithOptions, (req, res, next) => {
 		res.statusCode = 403;
-		res.end('Cannot DELETE on /marmitaria');
+		res.end('Cannot DELETE on /purchase');
 	});
 
-marmitariaRouter
+purchaseRouter
 	.route('/:id')
 	.options(cors.corsWithOptions, (req, res) => {
 		res.sendStatus(200);
 	})
 	.get(cors.cors, (req, res, next) => {
-		Marmitaria.findById(req.params.id)
-			.then((marmitaria) => {
+		Purchase.findById(req.params.id)
+			.then((purchase) => {
 				res.statusCode = 200;
 				res.setHeader('Content-Type', 'application/json');
-				res.json(marmitaria);
+				res.json(purchase);
 			})
 			.catch((err) => next(err));
 	})
 	.post(cors.corsWithOptions, (req, res, next) => {
 		res.statusCode = 403;
-		res.end('Cannot POST on /marmitaria/:id');
+		res.end('Cannot POST on /purchase/:id');
 	})
 	.put(cors.corsWithOptions, (req, res, next) => {
-		Marmitaria.findByIdAndUpdate(
+		Menu.findByIdAndUpdate(
 			req.params.id,
 			{
 				$set: req.body
 			},
 			{ new: true }
 		)
-			.then((marmitaria) => {
+			.then((purchase) => {
 				res.statusCode = 200;
 				res.setHeader('Content-Type', 'application/json');
-				res.json(marmitaria);
+				res.json(purchase);
 			})
 			.catch((err) => next(err));
 	})
 	.delete(cors.corsWithOptions, (req, res, next) => {
-		Marmitaria.findByIdAndRemove(req.params.id)
+		Menu.findByIdAndRemove(req.params.id)
 			.then((resp) => {
 				res.statusCode = 200;
 				res.setHeader('Content-Type', 'application/json');
@@ -83,4 +83,4 @@ marmitariaRouter
 			.catch((err) => next(err));
 	});
 
-module.exports = marmitariaRouter;
+module.exports = purchaseRouter;
