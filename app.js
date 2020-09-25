@@ -7,6 +7,9 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var marmitariaRouter = require('./routes/marmitariaRouter');
+var menuRouter = require('./routes/menuRouter');
+var purchaseRouter = require('./routes/purchaseRouter');
+var favoriteRouter = require('./routes/favoriteRouter');
 
 var session = require('express-session');
 var FileStore = require('session-file-store')(session);
@@ -21,7 +24,7 @@ const connect = mongoose.connect(url);
 
 connect.then(
 	(db) => {
-		console.log('Connected to server.');
+		console.log('Connected to server.', db);
 	},
 	(err) => {
 		console.log(err);
@@ -56,6 +59,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/marmitaria', marmitariaRouter);
+app.use('/menu', menuRouter);
+app.use('/purchase', purchaseRouter);
+app.use('/favorites', favoriteRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
