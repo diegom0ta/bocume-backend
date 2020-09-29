@@ -13,6 +13,10 @@ const purchaseSchema = new Schema(
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'User'
 		},
+		menu: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Menu'
+		},
 		price: {
 			type: Currency,
 			required: true,
