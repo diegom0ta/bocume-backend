@@ -11,11 +11,15 @@ var User = new Schema({
 		type: String,
 		default: ''
 	},
-	email: {
+	username: {
 		type: String,
 		default: ''
 	},
 	phone: {
+		type: String,
+		default: ''
+	},
+	password: {
 		type: String,
 		default: ''
 	}
